@@ -1,0 +1,12 @@
+<article class="card h-100 shadow-sm">
+    <div class="card-body">
+        <h2 class="h5 card-title">@Event.Name</h2>
+        <p class="mb-1"><strong>Date:</strong> @Event.Date.ToString("D")</p>
+        <p class="mb-1"><strong>Location:</strong> @Event.Location</p>
+        <p class="card-text mt-3">@Event.Description</p>
+        <a class="btn btn-outline-primary" href="@($"/events/{Event.Id}")">View details</a>
+    </div>
+</article>
+@code {
+    [Parameter, EditorRequired] public EventModel Event { get; set; } = default!;
+}

@@ -1,0 +1,16 @@
+@page "/events/{Id:int}"
+@inject EventService EventService
+<PageTitle>Event details</PageTitle>
+@if (selected is null)
+{
+    <h1>Event not found</h1><p>No event exists with ID @Id.</p><a href="events">Back to events</a>
+}
+else
+{
+    <h1>@selected.Name</h1><EventCard Event="selected" /><a class="btn btn-primary mt-3" href="@($"/register?eventId={selected.Id}")">Register</a>
+}
+@code {
+    [Parameter] public int Id { get; set; }
+    private EventModel? selected;
+    protected override void OnParametersSet() => selected = EventService.GetEvent(Id);
+}

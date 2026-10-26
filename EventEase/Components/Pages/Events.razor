@@ -1,0 +1,14 @@
+@page "/events"
+@inject EventService EventService
+<PageTitle>Events</PageTitle>
+<h1>Upcoming events</h1>
+<div class="row g-4">
+@foreach (var item in EventService.GetEvents())
+{
+    <div class="col-md-6" @key="item.Id"><EventCard Event="item" /></div>
+}
+</div>
+<hr class="my-5" />
+<h2>Create an event preview</h2>
+<p>This reusable editor demonstrates validated fields and two-way data binding.</p>
+<EventEditor />

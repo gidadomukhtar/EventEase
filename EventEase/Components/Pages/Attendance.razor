@@ -1,0 +1,18 @@
+@page "/attendance"
+@rendermode InteractiveServer
+@inject EventService EventService
+<PageTitle>Attendance</PageTitle>
+<h1>Attendance tracker</h1>
+@if (EventService.GetAttendees().Count == 0)
+{
+    <div class="alert alert-info">No attendees are registered in this session yet.</div>
+}
+else
+{
+<table class="table table-striped align-middle"><thead><tr><th>Name</th><th>Email</th><th>Status</th><th>Action</th></tr></thead><tbody>
+@foreach (var attendee in EventService.GetAttendees())
+{
+<tr @key="attendee.Id"><td>@attendee.FullName</td><td>@attendee.Email</td><td><span class="badge @(attendee.IsPresent ? "text-bg-success" : "text-bg-secondary")">@(attendee.IsPresent ? "Present" : "Not present")</span></td><td><button class="btn btn-sm btn-outline-primary" @onclick="() => EventService.ToggleAttendance(attendee.Id)">Toggle attendance</button></td></tr>
+}
+</tbody></table>
+}

@@ -1,0 +1,12 @@
+@page "/registration-success"
+@rendermode InteractiveServer
+@inject UserSessionService Session
+<PageTitle>Registration complete</PageTitle>
+@if (Session.HasActiveSession)
+{
+    <h1>Registration complete</h1><p>Thanks, @Session.UserName. Your registration was saved for this session.</p><a class="btn btn-primary" href="attendance">Open attendance tracker</a>
+}
+else
+{
+    <h1>No active registration</h1><p>Please complete the registration form first.</p><a class="btn btn-primary" href="register">Register</a>
+}

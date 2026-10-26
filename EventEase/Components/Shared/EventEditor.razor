@@ -1,0 +1,16 @@
+@rendermode InteractiveServer
+<EditForm Model="Model" OnValidSubmit="Save" FormName="event-editor">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3"><label class="form-label">Event name</label><InputText class="form-control" @bind-Value="Model.Name" /><ValidationMessage For="() => Model.Name" /></div>
+    <div class="mb-3"><label class="form-label">Date</label><InputDate class="form-control" @bind-Value="Model.Date" /><ValidationMessage For="() => Model.Date" /></div>
+    <div class="mb-3"><label class="form-label">Location</label><InputText class="form-control" @bind-Value="Model.Location" /><ValidationMessage For="() => Model.Location" /></div>
+    <div class="mb-3"><label class="form-label">Description</label><InputTextArea class="form-control" @bind-Value="Model.Description" /><ValidationMessage For="() => Model.Description" /></div>
+    <button class="btn btn-primary" type="submit">Preview event</button>
+</EditForm>
+@if (showPreview) { <div class="mt-4"><EventCard Event="Model" /></div> }
+@code {
+    private EventModel Model { get; } = new() { Id = 99 };
+    private bool showPreview;
+    private void Save() => showPreview = true;
+}

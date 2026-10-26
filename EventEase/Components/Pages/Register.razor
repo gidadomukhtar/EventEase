@@ -1,0 +1,32 @@
+@page "/register"
+@rendermode InteractiveServer
+@inject EventService EventService
+@inject UserSessionService Session
+@inject NavigationManager Navigation
+<PageTitle>Register</PageTitle>
+<h1>Event registration</h1>
+<EditForm Model="model" OnValidSubmit="Submit" FormName="registration">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3"><label class="form-label">Full name</label><InputText class="form-control" @bind-Value="model.FullName" /><ValidationMessage For="() => model.FullName" /></div>
+    <div class="mb-3"><label class="form-label">Email</label><InputText class="form-control" @bind-Value="model.Email" /><ValidationMessage For="() => model.Email" /></div>
+    <div class="mb-3"><label class="form-label">Event</label><InputSelect class="form-select" @bind-Value="model.EventId"><option value="">Select an event</option>@foreach (var e in EventService.GetEvents()){<option value="@e.Id">@e.Name</option>}</InputSelect><ValidationMessage For="() => model.EventId" /></div>
+    <div class="mb-3"><label class="form-label">Number of guests</label><InputNumber class="form-control" @bind-Value="model.NumberOfGuests" /><ValidationMessage For="() => model.NumberOfGuests" /></div>
+    <div class="form-check mb-3"><InputCheckbox class="form-check-input" @bind-Value="model.AcceptTerms" /><label class="form-check-label">I confirm the registration details are correct.</label></div>
+    @if (termsError) { <div class="text-danger mb-3">You must confirm the registration details.</div> }
+    <button class="btn btn-primary" type="submit">Complete registration</button>
+</EditForm>
+@code {
+    [SupplyParameterFromQuery] public int? EventId { get; set; }
+    private readonly RegistrationModel model = new();
+    private bool termsError;
+    protected override void OnParametersSet() { if (EventId.HasValue) model.EventId = EventId; }
+    private void Submit()
+    {
+        termsError = !model.AcceptTerms;
+        if (termsError) return;
+        EventService.Register(model);
+        Session.Start(model.FullName, model.Email);
+        Navigation.NavigateTo("/registration-success");
+    }
+}

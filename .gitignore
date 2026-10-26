@@ -1,0 +1,21 @@
+﻿## Visual Studio Tooling Cache
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Build Artifacts (Blazor Compilation)
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+
+## Publishing Outputs
+*.publish.htm
+*.azureauth
+appsettings.Development.json
+
+## User-specific / Local Environment
+.env
+.env.*
